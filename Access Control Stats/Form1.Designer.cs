@@ -38,7 +38,7 @@
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.Filter = "\"CSV|*.csv\"";
+            this.openFileDialog1.Filter = "CSV|*.csv|All files|*.*";
             // 
             // buttonOpenFile
             // 

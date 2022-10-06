@@ -37,7 +37,7 @@ namespace Access_Control_Stats
             string fileName = openFileDialog1.FileName;
             labelFileName.Text = fileName;
             parseCSV(fileName);
-            outputResult();
+            outputResult();            
         }
 
         private void parseCSV(string fileName)
@@ -56,15 +56,18 @@ namespace Access_Control_Stats
                     string[] values = line.Split(';');
 
                     string dateText = values[0].Trim('"');
-                    DateTime newDate = DateTime.ParseExact(dateText, "yyyy-MM-dd HH:mm:ss", null);
-                    string shortDate = newDate.Date.ToString();
-
-                    string newName = values[1];
-
-                    //date.Add(shortDate);
-                    //name.Add(newName);
-
-                    dateAnduserList.Add(new DateAndUser(shortDate, newName));
+                    try
+                    {
+                        DateTime newDate = DateTime.ParseExact(dateText, "yyyy-MM-dd HH:mm:ss", null);
+                        string shortDate = newDate.Date.ToString();
+                        string newName = values[1];
+                        dateAnduserList.Add(new DateAndUser(shortDate, newName));
+                    }
+                    catch
+                    {
+                        labelFileName.Text = "Not a valid file";
+                    }
+                    
                 }
                 else
                 {
