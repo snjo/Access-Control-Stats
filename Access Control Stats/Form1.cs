@@ -13,6 +13,22 @@ namespace Access_Control_Stats
         public Form1()
         {
             InitializeComponent();
+            this.AllowDrop = true;
+            this.DragEnter += new DragEventHandler(Form1_DragEnter);
+            this.DragDrop += new DragEventHandler(Form1_DragDrop);
+        }
+
+        void Form1_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        void Form1_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            labelFileName.Text = files[0];//Console.WriteLine(file);
+            parseCSV(files[0]);
+            outputResult();
         }
 
         private void buttonOpenFile_Click(object sender, EventArgs e)
@@ -26,6 +42,7 @@ namespace Access_Control_Stats
 
         private void parseCSV(string fileName)
         {
+            if (fileName.Length < 1) return;
             StreamReader reader = new StreamReader(fileName);
             //date = new List<string>();
             //name = new List<string>();

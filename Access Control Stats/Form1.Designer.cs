@@ -38,7 +38,7 @@
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "\"CSV|*.csv\"";
             // 
             // buttonOpenFile
             // 
@@ -61,9 +61,12 @@
             // 
             // textResult
             // 
+            this.textResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textResult.Location = new System.Drawing.Point(12, 60);
             this.textResult.Name = "textResult";
-            this.textResult.Size = new System.Drawing.Size(782, 457);
+            this.textResult.Size = new System.Drawing.Size(298, 412);
             this.textResult.TabIndex = 3;
             this.textResult.Text = "";
             // 
@@ -81,7 +84,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(926, 556);
+            this.ClientSize = new System.Drawing.Size(322, 484);
             this.Controls.Add(this.checkFullList);
             this.Controls.Add(this.textResult);
             this.Controls.Add(this.labelFileName);
