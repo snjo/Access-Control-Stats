@@ -51,7 +51,7 @@ namespace Access_Control_Stats
                 }
                 else
                 {
-                    labelFileName.Text = "StreamReader error";
+                    labelFileName.Text = "StreamReader error!";
                 }
             }
         }
