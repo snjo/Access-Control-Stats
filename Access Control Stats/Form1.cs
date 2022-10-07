@@ -5,8 +5,8 @@ namespace Access_Control_Stats
     public partial class Form1 : Form
     {
 
-        private List<string> date;
-        private List<string> name;
+        //private List<string> date;
+        //private List<string> name;
         private List<DateAndUser> dateAnduserList = new List<DateAndUser>();
         private DateList dateList = new DateList();
 
@@ -20,15 +20,29 @@ namespace Access_Control_Stats
 
         void Form1_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+            if (e.Data != null)
+            {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                errorLog.Text += "Drag and drop e.Data is null\n";
+            }
         }
 
         void Form1_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            labelFileName.Text = files[0];//Console.WriteLine(file);
-            parseCSV(files[0]);
-            outputResult();
+            if (e.Data != null)
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                labelFileName.Text = files[0];
+                parseCSV(files[0]);
+                outputResult();
+            }
+            else
+            {
+                errorLog.Text += "Drag and drop e.Data is null\n";
+            }
         }
 
         private void buttonOpenFile_Click(object sender, EventArgs e)
@@ -42,12 +56,21 @@ namespace Access_Control_Stats
 
         private void parseCSV(string fileName)
         {
-            if (fileName.Length < 1) return;
+            if (fileName.Length < 5) return;
+            errorLog.Text += "Filename Length: " + fileName.Length + "\n"; 
+            string fileExtension = fileName.Substring(fileName.Length-3, 3);
+            if (fileExtension.ToLower() != "csv")
+                errorLog.Text += "File Extension is not .csv!\n";
             StreamReader reader = new StreamReader(fileName);
-            //date = new List<string>();
-            //name = new List<string>();
 
-            var skip = reader.ReadLine(); // skip first line
+            errorLog.Text += "Loading file " + fileName + "\n";            
+            var skip = reader.ReadLine(); // skip first line with the headers ---------------------------------
+            if (skip != null)
+            {
+                errorLog.Text += "Skipping first line with header " + skip + "\n";
+            }
+            
+
             while (!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
@@ -65,13 +88,13 @@ namespace Access_Control_Stats
                     }
                     catch
                     {
-                        labelFileName.Text = "Not a valid file";
+                        errorLog.Text += "Line not in format \"2022-12-31 23:59:59\"; \"Name\"\n";
                     }
                     
                 }
                 else
                 {
-                    labelFileName.Text = "StreamReader error!";
+                    errorLog.Text += "StreamReader error!\n";
                 }
             }
         }
@@ -79,17 +102,13 @@ namespace Access_Control_Stats
         private void outputResult()
         {
             int maxLines = 100000;  // TEST, REMOVE LATER!!! <-----------------------------------------------------
-            textResult.Text = "Lines in the CSV: " + dateAnduserList.Count + "\n";
-
-            //List<string> namesInDate = new List<string>();
+            errorLog.Text += "Lines in the CSV: " + dateAnduserList.Count + "\n";
 
             for (int i = 0; i < dateAnduserList.Count && i < maxLines; i++)
             {
-                dateList.AddUser(dateAnduserList[i].date, dateAnduserList[i].name);    
-                
-                //textResult.Text += dateAnduserList[i].date + " : " + dateAnduserList[i].name + "\n";             
+                dateList.AddUser(dateAnduserList[i].date, dateAnduserList[i].name);          
             }
-            textResult.Text += "\n-------------------\n";
+            //textResult.Text += "\n-------------------\n";
             foreach (KeyValuePair<string, UserList> entry in dateList.dates)
             {
                 textResult.Text += entry.Key.Substring(0,10) + " : " + entry.Value.names.Count +  "\n";
@@ -141,16 +160,13 @@ namespace Access_Control_Stats
     public class DateList
     {
         public List<UserList> dateList = new List<UserList> ();
-        //private List<string> dates = new List<string>();
         public Dictionary<string, UserList> dates = new Dictionary<string, UserList> ();
 
         public void Add(string date)
         {
-            //if (!dates.ContainsKey)
             if (!dates.ContainsKey(date))
             {
                 dates.Add(date, new UserList(date));
-                //dateList.Add(new UserList(date));
             }
         }
 

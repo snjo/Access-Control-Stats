@@ -34,6 +34,7 @@
             this.labelFileName = new System.Windows.Forms.Label();
             this.textResult = new System.Windows.Forms.RichTextBox();
             this.checkFullList = new System.Windows.Forms.CheckBox();
+            this.errorLog = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -66,7 +67,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textResult.Location = new System.Drawing.Point(12, 60);
             this.textResult.Name = "textResult";
-            this.textResult.Size = new System.Drawing.Size(298, 412);
+            this.textResult.Size = new System.Drawing.Size(391, 396);
             this.textResult.TabIndex = 3;
             this.textResult.Text = "";
             // 
@@ -80,11 +81,22 @@
             this.checkFullList.Text = "Full List";
             this.checkFullList.UseVisualStyleBackColor = true;
             // 
+            // errorLog
+            // 
+            this.errorLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.errorLog.Location = new System.Drawing.Point(12, 463);
+            this.errorLog.Name = "errorLog";
+            this.errorLog.Size = new System.Drawing.Size(390, 81);
+            this.errorLog.TabIndex = 5;
+            this.errorLog.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(322, 484);
+            this.ClientSize = new System.Drawing.Size(415, 556);
+            this.Controls.Add(this.errorLog);
             this.Controls.Add(this.checkFullList);
             this.Controls.Add(this.textResult);
             this.Controls.Add(this.labelFileName);
@@ -104,5 +116,6 @@
         private Label labelFileName;
         private RichTextBox textResult;
         private CheckBox checkFullList;
+        private RichTextBox errorLog;
     }
 }
