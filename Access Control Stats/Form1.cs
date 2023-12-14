@@ -9,6 +9,7 @@ namespace Access_Control_Stats
         //private List<string> name;
         private List<DateAndUser> dateAnduserList = new List<DateAndUser>();
         private DateList dateList = new DateList();
+        private List<string> fileList = new List<string>();
 
         public Form1()
         {
@@ -35,8 +36,11 @@ namespace Access_Control_Stats
             if (e.Data != null)
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                labelFileName.Text = files[0];
-                parseCSV(files[0]);
+                foreach (string f in files)
+                {
+                    AddToFileList(f);
+                }
+                parseFiles();
                 outputResult();
             }
             else
@@ -48,28 +52,47 @@ namespace Access_Control_Stats
         private void buttonOpenFile_Click(object sender, EventArgs e)
         {
             openFileDialog1.ShowDialog(this);
-            string fileName = openFileDialog1.FileName;
-            labelFileName.Text = fileName;
-            parseCSV(fileName);
-            outputResult();            
+            string[] fileNames = openFileDialog1.FileNames;
+            foreach (string fileName in fileNames)
+            {
+                AddToFileList(fileName);
+            }
+            parseFiles();
+            outputResult();
+        }
+
+        private void AddToFileList(string fileName)
+        {
+            fileList.Add(fileName);
+            updateFileList();
+        }
+
+        private void parseFiles()
+        {
+            dateAnduserList.Clear();
+            dateList.Clear();
+            foreach (string file in fileList)
+            {
+                parseCSV(file);
+            }
         }
 
         private void parseCSV(string fileName)
         {
             if (fileName.Length < 5) return;
-            errorLog.Text += "Filename Length: " + fileName.Length + "\n"; 
-            string fileExtension = fileName.Substring(fileName.Length-3, 3);
+            errorLog.Text += "Filename Length: " + fileName.Length + "\n";
+            string fileExtension = fileName.Substring(fileName.Length - 3, 3);
             if (fileExtension.ToLower() != "csv")
                 errorLog.Text += "File Extension is not .csv!\n";
-            StreamReader reader = new StreamReader(fileName);
+            StreamReader reader = new StreamReader(fileName, EncodingTools.GetEncoding(comboBoxEncoding.Text).encoding);
 
-            errorLog.Text += "Loading file " + fileName + "\n";            
+            errorLog.Text += "Loading file " + fileName + "\n";
             var skip = reader.ReadLine(); // skip first line with the headers ---------------------------------
             if (skip != null)
             {
                 errorLog.Text += "Skipping first line with header " + skip + "\n";
             }
-            
+
 
             while (!reader.EndOfStream)
             {
@@ -90,7 +113,7 @@ namespace Access_Control_Stats
                     {
                         errorLog.Text += "Line not in format \"2022-12-31 23:59:59\"; \"Name\"\n";
                     }
-                    
+
                 }
                 else
                 {
@@ -101,17 +124,18 @@ namespace Access_Control_Stats
 
         private void outputResult()
         {
-            int maxLines = 100000;  // TEST, REMOVE LATER!!! <-----------------------------------------------------
+            //int maxLines = 100000;  // TEST, REMOVE LATER!!! <-----------------------------------------------------
             errorLog.Text += "Lines in the CSV: " + dateAnduserList.Count + "\n";
 
-            for (int i = 0; i < dateAnduserList.Count && i < maxLines; i++)
+            //for (int i = 0; i < dateAnduserList.Count && i < maxLines; i++)
+            for (int i = 0; i < dateAnduserList.Count; i++)
             {
-                dateList.AddUser(dateAnduserList[i].date, dateAnduserList[i].name);          
+                dateList.AddUser(dateAnduserList[i].date, dateAnduserList[i].name);
             }
             //textResult.Text += "\n-------------------\n";
             foreach (KeyValuePair<string, UserList> entry in dateList.dates)
             {
-                textResult.Text += entry.Key.Substring(0,10) + " : " + entry.Value.names.Count +  "\n";
+                textResult.Text += entry.Key.Substring(0, 10) + " : " + entry.Value.names.Count + "\n";
                 if (checkFullList.Checked)
                 {
                     foreach (string n in entry.Value.names)
@@ -122,12 +146,33 @@ namespace Access_Control_Stats
             }
         }
 
+        private void buttonClearFiles_Click(object sender, EventArgs e)
+        {
+            fileList.Clear();
+            updateFileList();
+            textResult.Clear();
+        }
 
+        private void buttonReloadFiles_Click(object sender, EventArgs e)
+        {
+            textResult.Clear();
+            parseFiles();
+            outputResult();
+        }
+
+        private void updateFileList()
+        {
+            textFileList.Clear();
+            foreach (string file in fileList)
+            {
+                textFileList.Text += file + Environment.NewLine;
+            }
+        }
     }
 
     public class DateAndUser
     {
-        public DateAndUser (string date, string name)
+        public DateAndUser(string date, string name)
         {
             this.date = date;
             this.name = name;
@@ -159,8 +204,8 @@ namespace Access_Control_Stats
 
     public class DateList
     {
-        public List<UserList> dateList = new List<UserList> ();
-        public Dictionary<string, UserList> dates = new Dictionary<string, UserList> ();
+        public List<UserList> dateList = new List<UserList>();
+        public Dictionary<string, UserList> dates = new Dictionary<string, UserList>();
 
         public void Add(string date)
         {
@@ -177,6 +222,12 @@ namespace Access_Control_Stats
                 Add(date);
             }
             dates[date].Add(name);
+        }
+
+        public void Clear()
+        {
+            dates.Clear();
+            dateList.Clear();
         }
     }
 }

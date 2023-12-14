@@ -28,84 +28,127 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.buttonOpenFile = new System.Windows.Forms.Button();
-            this.labelFileName = new System.Windows.Forms.Label();
-            this.textResult = new System.Windows.Forms.RichTextBox();
-            this.checkFullList = new System.Windows.Forms.CheckBox();
-            this.errorLog = new System.Windows.Forms.RichTextBox();
-            this.SuspendLayout();
+            openFileDialog1 = new OpenFileDialog();
+            saveFileDialog1 = new SaveFileDialog();
+            buttonOpenFile = new Button();
+            textResult = new RichTextBox();
+            checkFullList = new CheckBox();
+            errorLog = new RichTextBox();
+            comboBoxEncoding = new ComboBox();
+            label1 = new Label();
+            buttonReloadFiles = new Button();
+            buttonClearFiles = new Button();
+            textFileList = new RichTextBox();
+            SuspendLayout();
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.Filter = "CSV|*.csv|All files|*.*";
+            openFileDialog1.Filter = "CSV|*.csv|All files|*.*";
+            openFileDialog1.Multiselect = true;
             // 
             // buttonOpenFile
             // 
-            this.buttonOpenFile.Location = new System.Drawing.Point(12, 12);
-            this.buttonOpenFile.Name = "buttonOpenFile";
-            this.buttonOpenFile.Size = new System.Drawing.Size(75, 23);
-            this.buttonOpenFile.TabIndex = 0;
-            this.buttonOpenFile.Text = "Open";
-            this.buttonOpenFile.UseVisualStyleBackColor = true;
-            this.buttonOpenFile.Click += new System.EventHandler(this.buttonOpenFile_Click);
-            // 
-            // labelFileName
-            // 
-            this.labelFileName.AutoSize = true;
-            this.labelFileName.Location = new System.Drawing.Point(93, 16);
-            this.labelFileName.Name = "labelFileName";
-            this.labelFileName.Size = new System.Drawing.Size(38, 15);
-            this.labelFileName.TabIndex = 1;
-            this.labelFileName.Text = "label1";
+            buttonOpenFile.Location = new Point(12, 12);
+            buttonOpenFile.Name = "buttonOpenFile";
+            buttonOpenFile.Size = new Size(75, 23);
+            buttonOpenFile.TabIndex = 0;
+            buttonOpenFile.Text = "Open";
+            buttonOpenFile.UseVisualStyleBackColor = true;
+            buttonOpenFile.Click += buttonOpenFile_Click;
             // 
             // textResult
             // 
-            this.textResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textResult.Location = new System.Drawing.Point(12, 60);
-            this.textResult.Name = "textResult";
-            this.textResult.Size = new System.Drawing.Size(391, 396);
-            this.textResult.TabIndex = 3;
-            this.textResult.Text = "";
+            textResult.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            textResult.Location = new Point(12, 64);
+            textResult.Name = "textResult";
+            textResult.Size = new Size(391, 322);
+            textResult.TabIndex = 3;
+            textResult.Text = "";
             // 
             // checkFullList
             // 
-            this.checkFullList.AutoSize = true;
-            this.checkFullList.Location = new System.Drawing.Point(13, 39);
-            this.checkFullList.Name = "checkFullList";
-            this.checkFullList.Size = new System.Drawing.Size(66, 19);
-            this.checkFullList.TabIndex = 4;
-            this.checkFullList.Text = "Full List";
-            this.checkFullList.UseVisualStyleBackColor = true;
+            checkFullList.AutoSize = true;
+            checkFullList.Location = new Point(12, 41);
+            checkFullList.Name = "checkFullList";
+            checkFullList.Size = new Size(138, 19);
+            checkFullList.TabIndex = 4;
+            checkFullList.Text = "Full List (with names)";
+            checkFullList.UseVisualStyleBackColor = true;
             // 
             // errorLog
             // 
-            this.errorLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.errorLog.Location = new System.Drawing.Point(12, 463);
-            this.errorLog.Name = "errorLog";
-            this.errorLog.Size = new System.Drawing.Size(390, 81);
-            this.errorLog.TabIndex = 5;
-            this.errorLog.Text = "";
+            errorLog.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            errorLog.Location = new Point(12, 463);
+            errorLog.Name = "errorLog";
+            errorLog.Size = new Size(390, 81);
+            errorLog.TabIndex = 5;
+            errorLog.Text = "";
+            // 
+            // comboBoxEncoding
+            // 
+            comboBoxEncoding.FormattingEnabled = true;
+            comboBoxEncoding.Items.AddRange(new object[] { "UTF-8", "Latin1", "ANSI" });
+            comboBoxEncoding.Location = new Point(307, 37);
+            comboBoxEncoding.Name = "comboBoxEncoding";
+            comboBoxEncoding.Size = new Size(96, 23);
+            comboBoxEncoding.TabIndex = 6;
+            comboBoxEncoding.Text = "UTF-8";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(240, 42);
+            label1.Name = "label1";
+            label1.Size = new Size(57, 15);
+            label1.TabIndex = 7;
+            label1.Text = "Encoding";
+            // 
+            // buttonReloadFiles
+            // 
+            buttonReloadFiles.Location = new Point(93, 12);
+            buttonReloadFiles.Name = "buttonReloadFiles";
+            buttonReloadFiles.Size = new Size(75, 23);
+            buttonReloadFiles.TabIndex = 8;
+            buttonReloadFiles.Text = "Reload files";
+            buttonReloadFiles.UseVisualStyleBackColor = true;
+            buttonReloadFiles.Click += buttonReloadFiles_Click;
+            // 
+            // buttonClearFiles
+            // 
+            buttonClearFiles.Location = new Point(174, 12);
+            buttonClearFiles.Name = "buttonClearFiles";
+            buttonClearFiles.Size = new Size(96, 23);
+            buttonClearFiles.TabIndex = 9;
+            buttonClearFiles.Text = "Clear file list";
+            buttonClearFiles.UseVisualStyleBackColor = true;
+            buttonClearFiles.Click += buttonClearFiles_Click;
+            // 
+            // textFileList
+            // 
+            textFileList.Location = new Point(12, 392);
+            textFileList.Name = "textFileList";
+            textFileList.Size = new Size(390, 65);
+            textFileList.TabIndex = 10;
+            textFileList.Text = "";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(415, 556);
-            this.Controls.Add(this.errorLog);
-            this.Controls.Add(this.checkFullList);
-            this.Controls.Add(this.textResult);
-            this.Controls.Add(this.labelFileName);
-            this.Controls.Add(this.buttonOpenFile);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(415, 556);
+            Controls.Add(textFileList);
+            Controls.Add(buttonClearFiles);
+            Controls.Add(buttonReloadFiles);
+            Controls.Add(label1);
+            Controls.Add(comboBoxEncoding);
+            Controls.Add(errorLog);
+            Controls.Add(checkFullList);
+            Controls.Add(textResult);
+            Controls.Add(buttonOpenFile);
+            Name = "Form1";
+            Text = "Form1";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -113,9 +156,13 @@
         private OpenFileDialog openFileDialog1;
         private SaveFileDialog saveFileDialog1;
         private Button buttonOpenFile;
-        private Label labelFileName;
         private RichTextBox textResult;
         private CheckBox checkFullList;
         private RichTextBox errorLog;
+        private ComboBox comboBoxEncoding;
+        private Label label1;
+        private Button buttonReloadFiles;
+        private Button buttonClearFiles;
+        private RichTextBox textFileList;
     }
 }
