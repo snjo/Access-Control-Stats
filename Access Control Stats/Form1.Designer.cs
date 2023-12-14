@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             openFileDialog1 = new OpenFileDialog();
             saveFileDialog1 = new SaveFileDialog();
             buttonOpenFile = new Button();
@@ -145,6 +146,7 @@
             Controls.Add(checkFullList);
             Controls.Add(textResult);
             Controls.Add(buttonOpenFile);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
