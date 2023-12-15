@@ -7,11 +7,11 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>img\icon.ico</ApplicationIcon>
+    <ApplicationIcon>img\acs icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="img\icon.ico" />
+    <Content Include="img\acs icon.ico" />
   </ItemGroup>
 
 </Project>
