@@ -40,6 +40,7 @@ namespace Access_Control_Stats
                 {
                     AddToFileList(f);
                 }
+                textResult.Clear();
                 parseFiles();
                 outputResult();
             }
@@ -57,12 +58,14 @@ namespace Access_Control_Stats
             {
                 AddToFileList(fileName);
             }
+            textResult.Clear();
             parseFiles();
             outputResult();
         }
 
         private void AddToFileList(string fileName)
         {
+            if (fileList.Contains(fileName)) return;
             fileList.Add(fileName);
             updateFileList();
         }
@@ -79,12 +82,13 @@ namespace Access_Control_Stats
 
         private void parseCSV(string fileName)
         {
+            if (File.Exists(fileName) != true) return;
             if (fileName.Length < 5) return;
             errorLog.Text += "Filename Length: " + fileName.Length + "\n";
             string fileExtension = fileName.Substring(fileName.Length - 3, 3);
             if (fileExtension.ToLower() != "csv")
                 errorLog.Text += "File Extension is not .csv!\n";
-            StreamReader reader = new StreamReader(fileName, EncodingTools.GetEncoding(comboBoxEncoding.Text).encoding);
+            using StreamReader reader = new StreamReader(fileName, EncodingTools.GetEncoding(comboBoxEncoding.Text).encoding);
 
             errorLog.Text += "Loading file " + fileName + "\n";
             var skip = reader.ReadLine(); // skip first line with the headers ---------------------------------
@@ -135,7 +139,7 @@ namespace Access_Control_Stats
             //textResult.Text += "\n-------------------\n";
             foreach (KeyValuePair<string, UserList> entry in dateList.dates)
             {
-                textResult.Text += entry.Key.Substring(0, 10) + " : " + entry.Value.names.Count + "\n";
+                textResult.Text += entry.Key.Substring(0, 10) + "\t" + entry.Value.names.Count + "\n";
                 if (checkFullList.Checked)
                 {
                     foreach (string n in entry.Value.names)

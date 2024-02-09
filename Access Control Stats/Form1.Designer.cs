@@ -93,7 +93,7 @@
             comboBoxEncoding.Name = "comboBoxEncoding";
             comboBoxEncoding.Size = new Size(96, 23);
             comboBoxEncoding.TabIndex = 6;
-            comboBoxEncoding.Text = "UTF-8";
+            comboBoxEncoding.Text = "ANSI";
             // 
             // label1
             // 
